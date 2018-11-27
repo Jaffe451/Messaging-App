@@ -62,8 +62,8 @@ public class UserMain extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_user_main, container, false);
 
-        FragmentTransaction t = getChildFragmentManager().beginTransaction();
-        t.replace(R.id.user_main, UserList.newInstance() );
+        FragmentTransaction t = getFragmentManager().beginTransaction();
+        t.add(R.id.user_main, UserList.newInstance() );
         t.commit();
         return v;
     }
