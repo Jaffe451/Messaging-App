@@ -4,9 +4,12 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 
 /**
@@ -18,14 +21,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ListMeta extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -50,9 +46,31 @@ public class ListMeta extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        LinearLayout listList = getActivity().findViewById(R.id.list_meta_list);
+
+        for(int i = 0; i < listList.getChildCount(); i++){
+            View list = listList.getChildAt(i);
+            if(list instanceof TextView){
+                //defensive if statment to not add random buttons to things that would cause errors if they appear for some reason
+                list.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Fragment listFrag = ListView.newInstance(((TextView)v).getText().toString());
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                        transaction.replace(R.id.list_main_container, listFrag);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+
+                    }
+                });
+            }
         }
     }
 

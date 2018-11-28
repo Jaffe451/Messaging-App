@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -21,11 +22,10 @@ public class ListView extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String listName;
 
     private OnFragmentInteractionListener mListener;
 
@@ -39,9 +39,10 @@ public class ListView extends Fragment {
      * @return A new instance of fragment ListView.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListView newInstance() {
+    public static ListView newInstance(String name) {
         ListView fragment = new ListView();
         Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, name);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,9 +51,15 @@ public class ListView extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            listName = getArguments().getString(ARG_PARAM1);
+
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        ((TextView) getActivity().findViewById(R.id.list_view_title)).setText(listName + getString(R.string.list_view_title_suffix));
     }
 
     @Override

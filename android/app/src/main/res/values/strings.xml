@@ -31,9 +31,20 @@
     <string name="tab_text_2">Users</string>
     <string name="tab_text_3">Lists</string>
 
-    <!-- home fragment -->
+    <!-- home fragments -->
     <string name="home_input_hint">Post a new announcment</string>
     <string name="action_home_submit">submit</string>
+
+    <!-- User fragments -->
+    <string name="user_list_title">Users:</string>
+    <string name="user_chat_title_prefix">Chatting with </string>
+
+    <!-- List Fragments -->
+    <string name="list_meta_title">Lists:</string>
+    <string name="list_view_title_suffix">:</string>
+    <string name="list_meta_create">Create new list</string>
+    <string name="list_view_create_hint">Add an item to this list</string>.
+    <string name="list_meta_create_hint">Create a new list</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

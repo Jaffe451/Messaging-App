@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 /**
@@ -55,6 +56,14 @@ public class UserChat extends Fragment {
         if (getArguments() != null) {
             userName = getArguments().getString(USER_NAME);
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+
+        ((TextView)getActivity().findViewById(R.id.user_chat_name)).setText(getString(R.string.user_chat_title_prefix) + " " + userName);
     }
 
     @Override

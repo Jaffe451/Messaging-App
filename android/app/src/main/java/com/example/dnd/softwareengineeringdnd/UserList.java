@@ -86,8 +86,6 @@ public class UserList extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Fragment chat = UserChat.newInstance(((TextView)v).getText().toString());
-
-
                         FragmentTransaction transaction = getFragmentManager().beginTransaction();
                         transaction.replace(R.id.user_main, chat);
                         transaction.addToBackStack(null);

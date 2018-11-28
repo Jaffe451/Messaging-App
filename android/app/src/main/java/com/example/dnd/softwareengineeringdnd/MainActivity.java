@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements Home.OnFragmentInteractionListener,
             UserMain.OnFragmentInteractionListener, UserList.OnFragmentInteractionListener, UserChat.OnFragmentInteractionListener,
-            ListMeta.OnFragmentInteractionListener, ListView.OnFragmentInteractionListener {
+            ListMain.OnFragmentInteractionListener, ListMeta.OnFragmentInteractionListener, ListView.OnFragmentInteractionListener {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
                 case 1:
                     return UserMain.newInstance();
                 case 2:
-                    return ListMeta.newInstance();
+                    return ListMain.newInstance();
             }
             return null;
         }
