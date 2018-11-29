@@ -31,13 +31,18 @@
     <string name="tab_text_2">Users</string>
     <string name="tab_text_3">Lists</string>
 
+    <!--Common-->
+    <string name="action_common_submit">submit</string>
+
     <!-- home fragments -->
     <string name="home_input_hint">Post a new announcment</string>
-    <string name="action_home_submit">submit</string>
+
 
     <!-- User fragments -->
     <string name="user_list_title">Users:</string>
     <string name="user_chat_title_prefix">Chatting with </string>
+    <string name="user_add_username_title">Name:</string>
+    <string name="user_add_email_title">Email:</string>
 
     <!-- List Fragments -->
     <string name="list_meta_title">Lists:</string>

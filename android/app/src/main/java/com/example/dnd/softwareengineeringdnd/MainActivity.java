@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements Home.OnFragmentInteractionListener,
-            UserMain.OnFragmentInteractionListener, UserList.OnFragmentInteractionListener, UserChat.OnFragmentInteractionListener,
+            UserMain.OnFragmentInteractionListener, UserList.OnFragmentInteractionListener, UserChat.OnFragmentInteractionListener, UserAdd.OnFragmentInteractionListener,
             ListMain.OnFragmentInteractionListener, ListMeta.OnFragmentInteractionListener, ListView.OnFragmentInteractionListener {
 
     /**

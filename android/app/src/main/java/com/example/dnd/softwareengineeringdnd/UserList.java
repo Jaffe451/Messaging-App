@@ -96,6 +96,16 @@ public class UserList extends Fragment {
             }
         }
 
+        getActivity().findViewById(R.id.user_addUser).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction t = getFragmentManager().beginTransaction();
+                t.replace(R.id.user_main, UserAdd.newInstance() );
+                t.addToBackStack("user");
+                t.commit();
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
