@@ -11,13 +11,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class Register extends JFrame{
 
 	JFrame frame;
 	private JTextField txtUsername;
-	private JTextField txtPassword;
-	private JTextField txtRetypePass;
+	private JPasswordField txtPassword;
+	private JPasswordField txtRetypePass;
 
 
 	/**
@@ -72,11 +73,6 @@ public class Register extends JFrame{
 		frame.getContentPane().add(txtUsername);
 		txtUsername.setColumns(10);
 		
-		txtPassword = new JTextField();
-		txtPassword.setBounds(154, 179, 275, 33);
-		frame.getContentPane().add(txtPassword);
-		txtPassword.setColumns(10);
-		
 		
 // Register Me BUTTON //////////////
 		JButton btnRegisterme = new JButton("Register Me");
@@ -86,18 +82,34 @@ public class Register extends JFrame{
 		btnRegisterme.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String password = txtPassword.getText(); //need strikethrough to secure password
 				String username = txtUsername.getText();
+				String password = txtPassword.getText();
+				String retypepass = txtRetypePass.getText();
 				
 				if(password.contains(null)){
 					JOptionPane.showMessageDialog(null, "Invalid Password Details", "Register Error", JOptionPane.ERROR_MESSAGE);
 					txtPassword.setText(null);
 				}
+				
 				if(username.contains(null)) {
 					JOptionPane.showMessageDialog(null, "Invalid Username Details", "Register Error", JOptionPane.ERROR_MESSAGE);
 					txtUsername.setText(null);
+				}	
+				
+				if(retypepass != password) {
+					JOptionPane.showMessageDialog(null, "Password Mismatch", "Register Error", JOptionPane.ERROR_MESSAGE);
+					txtRetypePass.setText(null);
 				}
 				
+				if(username.contains("email") && password.contains("1234") && retypepass.contains("1234")) {
+					
+					JOptionPane.showMessageDialog( btnRegisterme, "Registration Successful");
+					
+					frame.dispose();
+					Login_S nw = new Login_S();
+					nw.frame.setVisible(true);
+					
+				}
 			}
 		});
 		btnRegisterme.setBounds(46, 327, 135, 41);
@@ -105,11 +117,13 @@ public class Register extends JFrame{
 	
 		// RESET BUTTON//////////////
 		JButton btnReset = new JButton("Reset");
+		btnReset.setForeground(Color.WHITE);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				txtUsername.setText(null);
 				txtPassword.setText(null);
+				txtRetypePass.setText(null);
 				
 			}
 		});
@@ -123,11 +137,7 @@ public class Register extends JFrame{
 		lblRetypePass.setBounds(13, 240, 115, 33);
 		frame.getContentPane().add(lblRetypePass);
 		
-		txtRetypePass = new JTextField();
-		txtRetypePass.setColumns(10);
-		txtRetypePass.setBounds(154, 240, 275, 33);
-		frame.getContentPane().add(txtRetypePass);
-		
+		// BACK BUTTON////////////
 		JButton btnBack = new JButton("Back");
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -142,8 +152,15 @@ public class Register extends JFrame{
 		btnBack.setBounds(26, 29, 90, 41);
 		frame.getContentPane().add(btnBack);
 		
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(154, 179, 275, 32);
+		frame.getContentPane().add(txtPassword);
+		
+		txtRetypePass = new JPasswordField();
+		txtRetypePass.setBounds(155, 234, 274, 36);
+		frame.getContentPane().add(txtRetypePass);
+		
 			
 				
 	}
-
 }

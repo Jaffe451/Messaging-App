@@ -79,8 +79,16 @@ public class Home {
 		
 		JButton btnNewButton = new JButton("Log Off");
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnNewButton.setBounds(31, 370, 116, 72);
+		btnNewButton.setBounds(31, 396, 98, 46);
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnSendAnnouncement = new JButton("Send Announcement");
+		btnSendAnnouncement.setBounds(282, 276, 131, 23);
+		frame.getContentPane().add(btnSendAnnouncement);
+		
+		JButton btnCreateGroup = new JButton("Create Group/Poll");
+		btnCreateGroup.setBounds(282, 310, 131, 23);
+		frame.getContentPane().add(btnCreateGroup);
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

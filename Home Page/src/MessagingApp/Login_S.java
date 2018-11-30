@@ -15,6 +15,8 @@ import java.awt.Window;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JPasswordField;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Login_S {
 
@@ -72,6 +74,7 @@ public class Login_S {
 		frame.getContentPane().add(lblPassword);
 		
 		txtUsername = new JTextField();
+		
 		txtUsername.setBounds(154, 117, 275, 33);
 		frame.getContentPane().add(txtUsername);
 		txtUsername.setColumns(10);
@@ -79,7 +82,7 @@ public class Login_S {
 		
 // LOGIN BUTTON //////////////
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBackground(Color.GREEN);
+		btnLogin.setBackground(Color.LIGHT_GRAY);
 		btnLogin.setForeground(Color.BLACK);
 		btnLogin.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnLogin.addActionListener(new ActionListener() {
@@ -109,6 +112,7 @@ public class Login_S {
 	
 		// RESET BUTTON//////////////
 		JButton btnReset = new JButton("Reset");
+		btnReset.setForeground(Color.WHITE);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -134,12 +138,69 @@ public class Login_S {
 			
 			}
 		});
-		btnRegister.setBackground(Color.BLUE);
+		btnRegister.setBackground(Color.LIGHT_GRAY);
 		btnRegister.setFont(new Font("Tahoma", Font.PLAIN, 19));
 		btnRegister.setBounds(332, 327, 120, 41);
 		frame.getContentPane().add(btnRegister);
 		
 		txtPassword = new JPasswordField();
+		txtPassword.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+
+					String password = txtPassword.getText(); 
+					String username = txtUsername.getText();
+					
+					if(password.contains("1234")&& username.contains("email")) {
+						JOptionPane.showMessageDialog( btnLogin, "Login Successful");
+						
+						frame.dispose();
+						Home nw = new Home();
+						nw.frame.setVisible(true);
+						
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
+						txtPassword.setText(null);
+						txtUsername.setText(null);
+					}		
+				}	
+			}
+		});
+		
+		txtUsername.addKeyListener(new KeyAdapter() {
+				
+			public void keyPressed(KeyEvent arg0) {
+				
+if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					
+
+					String password = txtPassword.getText(); 
+					String username = txtUsername.getText();
+					
+					if(password.contains("1234")&& username.contains("email")) {
+						JOptionPane.showMessageDialog( btnLogin, "Login Successful");
+						
+						frame.dispose();
+						Home nw = new Home();
+						nw.frame.setVisible(true);
+						
+						
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
+						txtPassword.setText(null);
+						txtUsername.setText(null);
+					}		
+				}	
+				
+			}
+				
+	    });
 		txtPassword.setBounds(154, 207, 275, 33);
 		frame.getContentPane().add(txtPassword);
 	}
