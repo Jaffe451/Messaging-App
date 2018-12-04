@@ -3,10 +3,12 @@ package com.example.dnd.softwareengineeringdnd;
 public class TextMessage extends MessageType {
 
     private final String data;
+    private final User sender;
 
-    public TextMessage(String message){
+    public TextMessage(String message, User sender){
 
         data = message;
+        this.sender = sender;
         
     }
 
@@ -14,6 +16,8 @@ public class TextMessage extends MessageType {
     public String getData() {
         return data;
     }
+
+    public User getSender(){ return sender; }
 
     @Override
     public int getType() {

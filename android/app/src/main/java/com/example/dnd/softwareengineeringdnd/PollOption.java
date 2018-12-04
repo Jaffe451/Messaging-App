@@ -5,8 +5,10 @@ public class PollOption {
     private MessageType data;
     private int votes;
 
+
     public PollOption(MessageType m){
         data = m;
+
     }
 
     public void addVote(){
@@ -20,5 +22,6 @@ public class PollOption {
     public int getVotes(){
         return votes;
     }
+
 
 }
