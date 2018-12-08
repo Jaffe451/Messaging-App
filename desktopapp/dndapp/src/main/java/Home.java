@@ -57,6 +57,9 @@ public class Home {
 
 	private JabberSmackAPI chatAPI;
 	
+
+	private static final String dHost = "54.158.25.184";
+	
 	/**
 	 * Launch the application.
 	 */
@@ -341,6 +344,10 @@ public class Home {
 	
 	public String getUser() {
 		return uName;
+	}
+	
+	public String getHost() {
+		return dHost;
 	}
 }	
 	

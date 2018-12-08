@@ -27,16 +27,20 @@ public class Chat {
 	private JPanel panel;
 	private JButton btnSend;
 	private JButton btnHome;
+	
+	private JTextPane textArea;
 
 
 	private final Home mw;
+	private final String username;
 
 	/**
 	 * Create the application.
 	 */
-	public Chat(Home home) {
+	public Chat(Home home, String username) {
 		
 		mw = home;
+		this.username = username;
 		initialize();
 	}
 
@@ -87,7 +91,7 @@ public class Chat {
 			}
 		});
 		panel.add(btnHome);
-		JTextPane textArea = new JTextPane();
+		textArea = new JTextPane();
 		textArea.setEditable(false);
 		textArea.setForeground(SystemColor.info);
 		textArea.setBackground(SystemColor.controlDkShadow);
@@ -100,19 +104,9 @@ public class Chat {
 		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					if(!textField.getText().equals("")) { 	
-						String text = textField.getText();
-						if(textArea.getText().equals("")) {
-							textArea.setText(mw.getUser() + " : " + text);
 
-						}	
-						else {
-							textArea.setText(textArea.getText() + "\n" + text);
-						}	
-						textField.setText("");
-					}
+					submit();
 				}
 				
 			}
@@ -121,23 +115,28 @@ public class Chat {
 		btnSend.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ae) {
 	        	
-		    if(!textField.getText().equals("")) { 	
-		         String text = textField.getText();
-	        	 if(textArea.getText().equals("")) {
-	        		 
-	        		 textArea.setText("Username :" + text);
-	        		
-	        	 }else {
-			         textArea.setText(textArea.getText() + "\n" + text);
-			     
-	        	 }	
-	        	 textField.setText("");
-		    }
-	           
+	           submit();
 	        }
 	    });
 		btnSend.setBounds(604, 382, 57, 23);
 		frame.getContentPane().add(btnSend);
 	
+	}
+	
+	private void submit() {
+			
+		if(!textField.getText().equals("")) { 	
+			String text = textField.getText();
+			if(textArea.getText().equals("")) {
+				textArea.setText(mw.getUser() + " : " + text);
+
+			}	
+			else {
+				textArea.setText(textArea.getText() + "\n" + text);
+			}
+			mw.getChat().sendMessage(text, username+"@"+mw.getHost());
+			textField.setText("");
+		}
+		
 	}
 }

@@ -45,7 +45,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
     	connection.login(userName, password);
     }
  
-    private void sendMessage(String body, String toJid) {
+    public void sendMessage(String body, String toJid) {
         try {
             Jid jid = JidCreate.from(toJid);
             Chat chat = ChatManager.getInstanceFor(connection).chatWith((EntityBareJid) jid);

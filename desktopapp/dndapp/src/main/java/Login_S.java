@@ -24,6 +24,8 @@ public class Login_S {
 	private JTextField txtUsername;
 	private JPasswordField txtPassword;
 
+	private JButton btnLogin;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -86,30 +88,15 @@ public class Login_S {
 		
 		
 // LOGIN BUTTON //////////////
-		JButton btnLogin = new JButton("Login");
+		btnLogin = new JButton("Login");
 		btnLogin.setBackground(Color.LIGHT_GRAY);
 		btnLogin.setForeground(Color.BLACK);
 		btnLogin.setFont(new Font("Malgun Gothic", Font.PLAIN, 12));
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				String password = txtPassword.getText(); 
-				String username = txtUsername.getText();
 				
-				if(password.length() > 3 && username.length() >3) {
-					JOptionPane.showMessageDialog( btnLogin, "Login Successful");
-					
-					frame.dispose();
-					Home nw = new Home(username, password);
-					nw.frame.setVisible(true);
-					
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
-					txtPassword.setText(null);
-					txtUsername.setText(null);
-				}
+				submit();
 			}
 		});
 		btnLogin.setBounds(20, 327, 120, 41);
@@ -156,23 +143,7 @@ public class Login_S {
 				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					
 
-					String password = txtPassword.getText(); 
-					String username = txtUsername.getText();
-					
-					if(password.contains("1234")&& username.contains("email")) {
-						JOptionPane.showMessageDialog( btnLogin, "Login Successful");
-						
-						frame.dispose();
-						Home nw = new Home();
-						nw.frame.setVisible(true);
-						
-						
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
-						txtPassword.setText(null);
-						txtUsername.setText(null);
-					}		
+					submit();	
 				}	
 			}
 		});
@@ -180,27 +151,10 @@ public class Login_S {
 		txtUsername.addKeyListener(new KeyAdapter() {
 				
 			public void keyPressed(KeyEvent arg0) {
+			
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 				
-					if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					
-
-					String password = txtPassword.getText(); 
-					String username = txtUsername.getText();
-					
-					if(password.contains("1234")&& username.contains("email")) {
-						JOptionPane.showMessageDialog( btnLogin, "Login Successful");
-						
-						frame.dispose();
-						Home nw = new Home();
-						nw.frame.setVisible(true);
-						
-						
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
-						txtPassword.setText(null);
-						txtUsername.setText(null);
-					}		
+					submit();
 				}	
 				
 			}
@@ -208,5 +162,25 @@ public class Login_S {
 	    });
 		txtPassword.setBounds(154, 207, 275, 33);
 		frame.getContentPane().add(txtPassword);
+	}
+	
+	private void submit() {
+		String password = txtPassword.getText(); 
+		String username = txtUsername.getText();
+		
+		if(password.length() > 3&& username.length() > 3) {
+			JOptionPane.showMessageDialog( btnLogin, "Login Successful");
+			
+			frame.dispose();
+			Home nw = new Home();
+			nw.frame.setVisible(true);
+			
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(null, "Invalid Login Details", "Login Error", JOptionPane.ERROR_MESSAGE);
+			txtPassword.setText(null);
+			txtUsername.setText(null);
+		}	
 	}
 }

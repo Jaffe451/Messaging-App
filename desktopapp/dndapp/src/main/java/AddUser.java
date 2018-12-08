@@ -96,7 +96,7 @@ public class AddUser {
 				{
 					
 					
-					JButton chat = new JButton( username.substring(0,1));
+					JButton chat = new JButton( username );
 					chat.setBackground(Color.LIGHT_GRAY);
 					chat.setFont(new Font("Malgun Gothic", Font.PLAIN, 12));
 					chat.setBounds(0, 0, 70, 60); //initialize in corner with size
@@ -110,7 +110,7 @@ public class AddUser {
 					chat.addActionListener(new ActionListener() {
 					    public void actionPerformed(ActionEvent arg0) {
 					
-					    	Chat nw = new Chat(mw);
+					    	Chat nw = new Chat(mw, username );
 							nw.frame.setVisible(true);
 						
 					    }
