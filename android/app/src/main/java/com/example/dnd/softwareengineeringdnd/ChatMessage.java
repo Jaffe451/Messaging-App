@@ -32,7 +32,6 @@ public class ChatMessage extends android.support.v7.widget.AppCompatTextView {
             params.gravity = Gravity.END;
 
             //if you are the sender make the background light blue
-
             background.setColor(0xAA42bcf4);
             background.setCornerRadius(5);
             background.setStroke(1, 0xFF000000);//border color black

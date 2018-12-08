@@ -1,27 +1,61 @@
 package com.example.dnd.softwareengineeringdnd;
 
-public class TextMessage extends MessageType {
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
+@Entity(tableName = "messages")
+public class TextMessage{
+
+    @PrimaryKey(autoGenerate = true)
+    private int key;
+
+
+    @NonNull
+    @ColumnInfo(name = "message")
     private final String data;
-    private final User sender;
 
-    public TextMessage(String message, User sender){
+    @NonNull
+    @ColumnInfo(name = "otherUser")
+    private final String otherUser;
 
-        data = message;
-        this.sender = sender;
-        
+    @NonNull
+    @ColumnInfo(name = "isMe")
+    private final boolean isMe;
+
+
+    public TextMessage(@NonNull String data,@NonNull String otherUser,@NonNull Boolean isMe){
+
+        this.data = data;
+        this.otherUser = otherUser;
+
+        this.isMe = isMe;
     }
 
-    @Override
     public String getData() {
         return data;
     }
 
-    public User getSender(){ return sender; }
+    public String getOtherUser(){ return otherUser; }
 
-    @Override
+    public boolean getIsMe(){ return isMe; }
+
     public int getType() {
         //as defined in messagetypes.xml a TextMessage is 0
         return 0;
+    }
+
+    public int getKey(){
+        return key;
+    }
+
+    public void setKey(int key){
+        this.key = key;
     }
 }

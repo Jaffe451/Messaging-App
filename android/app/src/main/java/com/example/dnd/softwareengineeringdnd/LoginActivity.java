@@ -30,6 +30,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final String mHost = "34.224.101.33";
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -197,14 +207,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         //TODO -> 1st->make sure email is valid use existing regex string compare probably
         //this is NOT verifying login credentials this prevents extra calls if gibberish is entered
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
 
         //TODO -> update with min password length
         //this is not verifying a correct password it is limiting extra calls if no or very short password is entered
-        return password.length() > 4;
+        return password.length() > 2;
     }
 
     /**
@@ -318,17 +328,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                Thread.sleep(1000);
+                //Thread.sleep(1000);
+               XMPPTCPConnectionConfiguration config = XMPPTCPConnectionConfiguration.builder()
+                        .setUsernameAndPassword(mEmail, mPassword)
+                        .setHost(mHost)
+                        .setXmppDomain(mHost)
+                        .setPort(5222)
+                        .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
+                        .build();
+
+                XMPPTCPConnection connection = new XMPPTCPConnection(config);
+                connection.connect();
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+                e.printStackTrace();
             } catch (InterruptedException e) {
                 return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            } catch (SmackException e) {
+                e.printStackTrace();
             }
 
             // TODO: register the new account here.
@@ -353,7 +372,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
 
         @Override
-        protected void onCancelled() {
+        protected void onCancelled(){
             mAuthTask = null;
             showProgress(false);
         }
