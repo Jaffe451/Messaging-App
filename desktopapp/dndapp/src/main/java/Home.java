@@ -26,9 +26,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 
 public class Home {
 
@@ -41,7 +48,15 @@ public class Home {
 	private ArrayList<String> lists;
 	private ArrayList<String> Polls;
 	private int numUsers;
+	
+	private final String uName;
+	private final String uPass;
+	
+	private static XMPPTCPConnection connection;
+	private XMPPTCPConnectionConfiguration config;
 
+	private JabberSmackAPI chatAPI;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -66,8 +81,26 @@ public class Home {
 		lists = new ArrayList<String>();
 		Polls = new ArrayList<String>();
 		thisFrame = this;
+		
+		uName="andrew";
+		uPass="pass";
+		
 		initialize();
 	}
+	
+	public Home(String uName, String uPass) {
+		numUsers = 0;
+		lists = new ArrayList<String>();
+		Polls = new ArrayList<String>();
+		thisFrame = this;
+		
+		this.uName = uName;
+		this.uPass = uPass;
+		
+		initialize();
+	}
+	
+	
 	
 	public void addList(String newList) {
 		lists.add(newList);
@@ -201,7 +234,7 @@ public class Home {
 		
 		//////////////Send Button//////////////////////////
 		JButton btnSend = new JButton("Send");
-		btnSend.addKeyListener(new KeyAdapter() {
+		textField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
 				
@@ -209,9 +242,8 @@ public class Home {
 					if(!textField.getText().equals("")) { 	
 						String text = textField.getText();
 						if(textArea.getText().equals("")) {
-							textArea.setText(text);
-							textArea.insert("Username    :   ", 0);
-				      
+							textArea.setText(uName + " : " + text);
+
 						}	
 						else {
 							textArea.setText(textArea.getText() + "\n" + text);
@@ -229,17 +261,15 @@ public class Home {
 				if(!textField.getText().equals("")) { 	
 					String text = textField.getText();
 					if(textArea.getText().equals("")) {
-						textArea.setText(text);
-						textArea.insert("Username    :   ", 0);
-			      
+						textArea.setText(uName + " : " + text);
+
 					}	
 					else {
 						textArea.setText(textArea.getText() + "\n" + text);
 					}	
 					textField.setText("");
 				}
-							
-			  }
+			}
 		});
 				
 		btnSend.setBounds(604, 404, 89, 23);
@@ -291,8 +321,26 @@ public class Home {
 			};
 		});
 		
+		
+		chatAPI = new JabberSmackAPI();
+    	
+    	try {
+			chatAPI.login(uName, uPass);
+		} catch (XMPPException | SmackException | IOException | InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 	
 		
+	}
+	
+	public JabberSmackAPI getChat() {
+		return chatAPI;
+	}
+	
+	public String getUser() {
+		return uName;
 	}
 }	
 	

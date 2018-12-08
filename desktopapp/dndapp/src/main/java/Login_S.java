@@ -96,11 +96,11 @@ public class Login_S {
 				String password = txtPassword.getText(); 
 				String username = txtUsername.getText();
 				
-				if(password.contains("1234")&& username.contains("email")) {
+				if(password.length() > 3 && username.length() >3) {
 					JOptionPane.showMessageDialog( btnLogin, "Login Successful");
 					
 					frame.dispose();
-					Home nw = new Home();
+					Home nw = new Home(username, password);
 					nw.frame.setVisible(true);
 					
 					

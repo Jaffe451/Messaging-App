@@ -88,7 +88,7 @@ public class AddUser {
 				String password = textField_1.getText(); 
 				String username = textField.getText();
 				
-				if(password.contains("1234") || username.contains("email")) {
+				if(password.length() > 3 && username.length() > 3) {
 					
 					JOptionPane.showMessageDialog( btnNewButton, "Added User To Chat");
 				
@@ -110,7 +110,7 @@ public class AddUser {
 					chat.addActionListener(new ActionListener() {
 					    public void actionPerformed(ActionEvent arg0) {
 					
-					    	Chat nw = new Chat();
+					    	Chat nw = new Chat(mw);
 							nw.frame.setVisible(true);
 						
 					    }

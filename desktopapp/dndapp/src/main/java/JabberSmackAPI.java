@@ -74,7 +74,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
     public void processMessage(Chat chat, Message message)
     {
     	if(message.getType() == Message.Type.chat) {
-    		System.out.println(chat.getXmppAddressOfChatPartner().toString() + " says: " + message.getBody());
+    		System.out.println(" says: " + message.getBody());
     	}
     }
  

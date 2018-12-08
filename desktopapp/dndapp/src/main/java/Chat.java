@@ -9,6 +9,8 @@ import javax.swing.JFileChooser;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -16,6 +18,7 @@ import java.awt.SystemColor;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
 public class Chat {
 
@@ -26,11 +29,14 @@ public class Chat {
 	private JButton btnHome;
 
 
+	private final Home mw;
 
 	/**
 	 * Create the application.
 	 */
-	public Chat() {
+	public Chat(Home home) {
+		
+		mw = home;
 		initialize();
 	}
 
@@ -81,7 +87,8 @@ public class Chat {
 			}
 		});
 		panel.add(btnHome);
-		JTextArea textArea = new JTextArea();
+		JTextPane textArea = new JTextPane();
+		textArea.setEditable(false);
 		textArea.setForeground(SystemColor.info);
 		textArea.setBackground(SystemColor.controlDkShadow);
 		textArea.setBounds(193, 47, 374, 314);
@@ -90,6 +97,27 @@ public class Chat {
 		btnSend = new JButton("Send");
 		JButton btnSend = new JButton("Send");
 
+		textField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					if(!textField.getText().equals("")) { 	
+						String text = textField.getText();
+						if(textArea.getText().equals("")) {
+							textArea.setText(mw.getUser() + " : " + text);
+
+						}	
+						else {
+							textArea.setText(textArea.getText() + "\n" + text);
+						}	
+						textField.setText("");
+					}
+				}
+				
+			}
+		});
+		
 		btnSend.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent ae) {
 	        	
@@ -97,8 +125,7 @@ public class Chat {
 		         String text = textField.getText();
 	        	 if(textArea.getText().equals("")) {
 	        		 
-	        		 textArea.setText(text);
-	        		 textArea.insert("Username    :   ", 0);
+	        		 textArea.setText("Username :" + text);
 	        		
 	        	 }else {
 			         textArea.setText(textArea.getText() + "\n" + text);
