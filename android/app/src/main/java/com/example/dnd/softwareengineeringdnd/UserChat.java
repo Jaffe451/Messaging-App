@@ -1,9 +1,15 @@
 package com.example.dnd.softwareengineeringdnd;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -30,6 +41,10 @@ public class UserChat extends Fragment {
 
     // TODO: Rename and change types of parameters
     private String userName;
+
+    private TextMessageAdapter adapter;
+
+    private TextMessageViewModel mTextViewModel;
 
     private OnFragmentInteractionListener mListener;
 
@@ -52,6 +67,8 @@ public class UserChat extends Fragment {
         args.putString(USER_NAME, userName);
 
         fragment.setArguments(args);
+        //fragment.mTextViewModel = ViewModelProviders.of(fragment).get(TextMessageViewModel.class);
+
         return fragment;
     }
 
@@ -79,7 +96,7 @@ public class UserChat extends Fragment {
                 String text = chatInput.getText().toString();
                 if(!(text.equals(""))) {
                     //if the message is not null
-                    TextMessage message = new TextMessage(((EditText) getActivity().findViewById(R.id.user_chat_input)).getText().toString(), new User("me"));
+                    TextMessage message = new TextMessage(((EditText) getActivity().findViewById(R.id.user_chat_input)).getText().toString(),userName,true);
                     addMessage(message);
                 }
                 chatInput.setText("");
@@ -98,6 +115,22 @@ public class UserChat extends Fragment {
                 return false;
             }
         });
+
+/*
+        RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerview);
+        adapter = new TextMessageAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        mTextViewModel.getmLiveData().observe(this, new Observer<List<TextMessage>>() {
+            @Override
+            public void onChanged(@Nullable final List<TextMessage> message) {
+                // Update the cached copy of the words in the adapter.
+                adapter.setWords(message);
+            }
+        });
+*/
     }
 
     @Override
@@ -132,13 +165,11 @@ public class UserChat extends Fragment {
     }
 
 
-    public void addMessage(MessageType m){
+    public void addMessage(TextMessage m){
         switch(m.getType()){
             case 0:
                  // text message
-                ChatMessage toAdd = new ChatMessage(getContext(), m.getData(), (m.getSender().toString() != userName ));
-                                                                                //userName is the user you are chatting with the 3rd argumetn being true means you sent the message
-                                                                                //if these are not  equal you sent the message and the argument is true
+                ChatMessage toAdd = new ChatMessage(getContext(), m.getData(), m.getIsMe() );
                 ((LinearLayout) getActivity().findViewById(R.id.user_chat_chatlog)).addView(toAdd);
                 return;
             case 1:

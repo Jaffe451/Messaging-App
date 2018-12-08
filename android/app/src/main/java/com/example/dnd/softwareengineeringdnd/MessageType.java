@@ -4,12 +4,6 @@ import java.util.ArrayList;
 
 public abstract class MessageType {
 
-    private String data;
-
-    private int type;
-
-    private User sender;
-
     /**
      * Returns a string containing either the raw text data of the message or a PATH to the file containing the data
      * The type of data returned from this function can be accessed via the getType() function in this class
@@ -27,6 +21,8 @@ public abstract class MessageType {
 
     public abstract int getType();
 
-    public abstract User getSender();
+    public abstract String getOtherUser();
+
+    public abstract boolean getIsMe();
 
 }

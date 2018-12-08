@@ -7,4 +7,6 @@ public class User {
     public User(String name){
         displayName = name;
     }
+
+    public String getDisplayName(){ return displayName; }
 }
