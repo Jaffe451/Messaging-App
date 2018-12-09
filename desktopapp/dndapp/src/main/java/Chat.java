@@ -134,7 +134,7 @@ public class Chat {
 			else {
 				textArea.setText(textArea.getText() + "\n" + text);
 			}
-			mw.getChat().sendMessage(text, username+"@"+mw.getHost());
+			mw.getChat().sendPrivateMessage(text, username+"@"+mw.getHost());
 			textField.setText("");
 		}
 		

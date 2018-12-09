@@ -33,11 +33,12 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.StanzaListener;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 
-public class Home {
+public class Home implements UpdateListener {
 
 	public JFrame frame;
 	private JTextField textField;
@@ -56,6 +57,7 @@ public class Home {
 	private XMPPTCPConnectionConfiguration config;
 
 	private JabberSmackAPI chatAPI;
+	private Updater updateThread;
 	
 
 	private static final String dHost = "54.158.25.184";
@@ -333,7 +335,14 @@ public class Home {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+    	
+    	chatAPI.displayBuddyList();
+    	
+    	updateThread = new Updater();
+    	updateThread.addListener(this);
+    	updateThread.start();
 		
+ 
 	
 		
 	}
@@ -348,6 +357,67 @@ public class Home {
 	
 	public String getHost() {
 		return dHost;
+	}
+	
+	private class Updater extends Thread {
+		
+		private final static int updateTimer = 2000;
+		private boolean interupt;
+		private ArrayList<String> message;
+		private UpdateListener listener;
+		
+		public Updater() {
+			
+			interupt = false;
+			message = new ArrayList<String>();
+			listener = null;
+			
+		}
+		
+		public void stopMe() {
+			interupt = true;
+		}
+		
+		public void addListener(UpdateListener listener) {
+			this.listener=listener;
+		}
+		
+		public void run() {
+			while(!interupt) {
+				try {
+
+					Thread.sleep(updateTimer);
+					//System.out.println("Looking for messages");
+
+				
+					chatAPI.checkForMessage(message);
+					
+					if(listener != null) {
+						if(!message.isEmpty()) {
+							//theres new data
+							listener.onNewData(message);				
+							System.out.println("new message found");
+						}
+					}
+					
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+
+		}
+		
+		
+	}
+
+	@Override
+	public void onNewData(ArrayList<String> message) {
+		// TODO Auto-generated method stub
+		for(String s: message) {
+			System.out.println(s);
+		}
 	}
 }	
 	
