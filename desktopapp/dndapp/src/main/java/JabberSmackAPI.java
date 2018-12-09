@@ -53,8 +53,9 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
     	
     }
     
-    public void checkForMessage(ArrayList<String> newMessage) {
+    public ArrayList<String> checkForMessage() {
  
+    	ArrayList<String> newMessage = new ArrayList<String>();
         packetListener = new StanzaListener() {
             public void processStanza(Stanza stanza) {
                 if (stanza instanceof Message) {
@@ -67,19 +68,23 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
                      * 2 is for poll
                      * 3 is for list update
                      */
-                    newMessage.add(message.getBody().substring(0,1));
-                    newMessage.add(message.getFrom().toString());
-                    newMessage.add(message.getBody().substring(1, message.getBody().length()));                    	
+                    if(((message != null) && message.getBody()!=null)) {                    	                    
+	                    newMessage.add(message.getBody().substring(0,1));
+	                    newMessage.add(message.getFrom().toString());
+	                    newMessage.add(message.getBody().substring(1, message.getBody().length()));                
+                    }
                                   
                 }
             }
         };
-        /*   
+          
         StanzaFilter packetFilter = null;
         // Create a stanza filter to listen for new messages from a particular
         // user. We use an AndFilter to combine two other filters._
         connection.addAsyncStanzaListener(packetListener, packetFilter);
-        */
+        
+        return newMessage;
+        
     }
  
     public void sendPrivateMessage(String body, String toJid) {

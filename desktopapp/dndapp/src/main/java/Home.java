@@ -390,7 +390,7 @@ public class Home implements UpdateListener {
 					//System.out.println("Looking for messages");
 
 				
-					chatAPI.checkForMessage(message);
+					message = chatAPI.checkForMessage();
 					
 					if(listener != null) {
 						if(!message.isEmpty()) {
