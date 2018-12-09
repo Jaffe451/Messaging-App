@@ -69,7 +69,12 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
                      * 2 is for poll
                      * 3 is for list update
                      */
-                    System.out.println("Message Recieved in stanzalistner body contains: " + message.getBody());
+                    if(message.getError() != null) {
+                    	System.out.println("Message Recieved in stanzalistner error: " + message.getError().toString());
+                    }
+                    
+                    
+                    System.out.println("message Recieved in stanazalistener body: " + message.getBody());
                     if(((message != null) && message.getBody()!=null)) {                    	                    
 	                    newMessage.add(message.getBody().substring(0,1));
 	                    newMessage.add(message.getFrom().toString());
