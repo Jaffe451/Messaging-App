@@ -34,7 +34,7 @@ import java.util.List;
  * Use the {@link UserChat#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class UserChat extends Fragment {
+public class UserChat extends Fragment implements messageDisplayer{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String USER_NAME = "param1";
@@ -47,6 +47,11 @@ public class UserChat extends Fragment {
     private TextMessageViewModel mTextViewModel;
 
     private OnFragmentInteractionListener mListener;
+
+    private JabberSmackAPI chatAPI;
+
+
+
 
     public UserChat() {
         // Required empty public constructor
@@ -96,8 +101,11 @@ public class UserChat extends Fragment {
                 String text = chatInput.getText().toString();
                 if(!(text.equals(""))) {
                     //if the message is not null
-                    TextMessage message = new TextMessage(((EditText) getActivity().findViewById(R.id.user_chat_input)).getText().toString(),userName,true);
+                    String body = ((EditText) getActivity().findViewById(R.id.user_chat_input)).getText().toString();
+                    TextMessage message = new TextMessage(body,userName,true);
+                    chatAPI.sendPrivateMessage(body, userName);
                     addMessage(message);
+
                 }
                 chatInput.setText("");
             }
@@ -115,6 +123,9 @@ public class UserChat extends Fragment {
                 return false;
             }
         });
+
+        chatAPI = ((MainActivity)getActivity()).getChatAPI();
+        chatAPI.setMessageDisplayer(this);
 
 /*
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerview);
@@ -181,6 +192,14 @@ public class UserChat extends Fragment {
                 //TODO impliment audio message handling
                 return;
         }
+    }
+
+    @Override
+    public void onNewMessage(ArrayList<String> message) {
+
+        TextMessage newMessage = new TextMessage(message.get(2),message.get(1),false);
+        addMessage(newMessage);
+
     }
 
     /**

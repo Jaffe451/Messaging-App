@@ -311,7 +311,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mEmail;
         private final String mPassword;
@@ -328,26 +328,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             try {
                 // Simulate network access.
-                //Thread.sleep(1000);
-               XMPPTCPConnectionConfiguration config = XMPPTCPConnectionConfiguration.builder()
-                        .setUsernameAndPassword(mEmail, mPassword)
-                        .setHost(mHost)
-                        .setXmppDomain(mHost)
-                        .setPort(5222)
-                        .setSecurityMode(ConnectionConfiguration.SecurityMode.disabled)
-                        .build();
+                Thread.sleep(1000);
 
-                XMPPTCPConnection connection = new XMPPTCPConnection(config);
-                connection.connect();
-            } catch (XMPPException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-                e.printStackTrace();
             } catch (InterruptedException e) {
                 return false;
-            } catch (SmackException e) {
-                e.printStackTrace();
             }
 
             // TODO: register the new account here.
@@ -363,6 +347,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 // this should load the new activity
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                i.putExtra("mEmail", mEmail);
+                i.putExtra("mPass", mPassword);
                 startActivity(i);
                 finish();
             } else {

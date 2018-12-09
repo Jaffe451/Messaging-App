@@ -1,6 +1,8 @@
 package com.example.dnd.softwareengineeringdnd;
 
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -22,6 +24,14 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
+import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity implements Home.OnFragmentInteractionListener,
             UserMain.OnFragmentInteractionListener, UserList.OnFragmentInteractionListener, UserChat.OnFragmentInteractionListener, UserAdd.OnFragmentInteractionListener,
             ListMain.OnFragmentInteractionListener, ListMeta.OnFragmentInteractionListener, ListView.OnFragmentInteractionListener {
@@ -40,6 +50,12 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
+
+    private UserLoginTask mAuthTask;
+    private JabberSmackAPI chatAPI;
+
+    private String mEmail;
+    private String mPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +77,12 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mViewPager));
 
+        mEmail = getIntent().getStringExtra("mEmail");
+        mPass = getIntent().getStringExtra("mPass");
+
+        chatAPI = new JabberSmackAPI();
+        mAuthTask = new UserLoginTask(mEmail, mPass);
+        mAuthTask.execute((Void) null);
 
     }
 
@@ -97,6 +119,10 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
 
     }
 
+    public JabberSmackAPI getChatAPI(){
+        return chatAPI;
+    }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -130,5 +156,63 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
             // Show 3 total pages.
             return 3;
         }
+    }
+
+    /**
+     * Represents an asynchronous login/registration task used to authenticate
+     * the user.
+     */
+    private class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private final String mEmail;
+        private final String mPassword;
+
+        UserLoginTask(String email, String password) {
+            mEmail = email;
+            mPassword = password;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //this is where the magic happens
+            // TODO: attempt authentication against a network service.
+
+            try {
+                // Simulate network access.
+                //Thread.sleep(1000);
+                chatAPI.login(mEmail, mPassword);
+
+            } catch (XMPPException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                return false;
+            } catch (SmackException e) {
+                e.printStackTrace();
+            }
+
+            // TODO: register the new account here.
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            mAuthTask = null;
+
+
+            if (success) {
+
+            } else {
+
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            mAuthTask = null;
+        }
+
     }
 }
