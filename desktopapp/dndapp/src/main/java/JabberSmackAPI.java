@@ -24,6 +24,7 @@ import org.jxmpp.jid.impl.JidCreate;
 import org.xml.*;
 import org.minidns.*;
 import org.jivesoftware.smack.filter.StanzaFilter;
+import org.jivesoftware.smack.filter.StanzaTypeFilter;
 import org.jivesoftware.smack.packet.Stanza;
 
 public class JabberSmackAPI implements ConnectionListener, MessageListener, ChatMessageListener {
@@ -68,6 +69,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
                      * 2 is for poll
                      * 3 is for list update
                      */
+                    System.out.println("Message Recieved in stanzalistner body contains: " + message.getBody());
                     if(((message != null) && message.getBody()!=null)) {                    	                    
 	                    newMessage.add(message.getBody().substring(0,1));
 	                    newMessage.add(message.getFrom().toString());
@@ -78,7 +80,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
             }
         };
           
-        StanzaFilter packetFilter = null;
+        StanzaTypeFilter packetFilter = new StanzaTypeFilter(Message.class);
         // Create a stanza filter to listen for new messages from a particular
         // user. We use an AndFilter to combine two other filters._
         connection.addAsyncStanzaListener(packetListener, packetFilter);

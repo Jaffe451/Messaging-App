@@ -172,7 +172,7 @@ public class Login_S {
 			JOptionPane.showMessageDialog( btnLogin, "Login Successful");
 			
 			frame.dispose();
-			Home nw = new Home();
+			Home nw = new Home(username, password);
 			nw.frame.setVisible(true);
 			
 			
