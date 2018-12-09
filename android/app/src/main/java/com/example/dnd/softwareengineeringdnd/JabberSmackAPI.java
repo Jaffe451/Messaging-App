@@ -76,18 +76,24 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
                      */
                     if(message.getError() != null) {
                     	//System.out.println("Message Recieved in stanzalistner error: " + message.getError().toString());
+						Log.i("Jabber", "Message recieved with error" + message.getError().toString());
                     }
                     
                     
                     //System.out.println("message Recieved in stanazalistener body: " + message.getBody());
-                    if(((message != null) && message.getBody()!=null)) {                    	                
+                    if(((message != null) && message.getBody()!=null)) {
+
                     	ArrayList<String> newMessage = new ArrayList<String>();
 	                    newMessage.add(message.getBody().substring(0,1));
 	                    newMessage.add(message.getFrom().toString().split("@")[0]);
 	                    newMessage.add(message.getBody().substring(1, message.getBody().length()));
+
+	                    Log.i("Jabber","Message recieved: body contains " + newMessage.get(2));
 	                    displayer.onNewMessage(newMessage);
 	                    
-                    }
+                    }else{
+                    	Log.i("Jabber", "received null messsage");
+					}
                                   
                 }
             }
@@ -101,11 +107,12 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
  
     public void sendPrivateMessage(String body, String toJid) {
         try {
-            Jid jid = JidCreate.from(toJid);
+			EntityBareJid jid = JidCreate.entityBareFrom(toJid + "@" + dHost);
             Chat chat = ChatManager.getInstanceFor(connection).chatWith((EntityBareJid) jid);
 			Log.i("Jabber","Sending message:" + body + " to Jid: " + jid.toString() );
             chat.send("1" + body);
         } catch (Exception e) {
+        	Log.i("Jabber","Logging sendPrivateMessage Exception: " + e.getMessage());
         } 
    }
  

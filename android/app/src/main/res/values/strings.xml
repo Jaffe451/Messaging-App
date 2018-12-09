@@ -13,6 +13,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="host">54.158.25.184</string>
+
 
 
     <!-- main activity -->

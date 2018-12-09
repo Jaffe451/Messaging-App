@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -104,6 +105,7 @@ public class UserChat extends Fragment implements messageDisplayer{
                     String body = ((EditText) getActivity().findViewById(R.id.user_chat_input)).getText().toString();
                     TextMessage message = new TextMessage(body,userName,true);
                     chatAPI.sendPrivateMessage(body, userName);
+                    Log.i("Jabber","From userChat calling sendPrivateMessage with args " + body + " , "  +userName);
                     addMessage(message);
 
                 }
@@ -126,6 +128,7 @@ public class UserChat extends Fragment implements messageDisplayer{
 
         chatAPI = ((MainActivity)getActivity()).getChatAPI();
         chatAPI.setMessageDisplayer(this);
+        chatAPI.addMessageListener();
 
 /*
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerview);
@@ -197,8 +200,14 @@ public class UserChat extends Fragment implements messageDisplayer{
     @Override
     public void onNewMessage(ArrayList<String> message) {
 
-        TextMessage newMessage = new TextMessage(message.get(2),message.get(1),false);
-        addMessage(newMessage);
+        final TextMessage newMessage = new TextMessage(message.get(2),message.get(1),false);
+        getActivity().runOnUiThread(new Runnable(){
+
+            @Override
+            public void run() {
+                addMessage(newMessage);
+            }
+        });
 
     }
 
