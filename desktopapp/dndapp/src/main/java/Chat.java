@@ -37,11 +37,12 @@ public class Chat {
 	/**
 	 * Create the application.
 	 */
-	public Chat(Home home, String username) {
+	public Chat(Home home, String username, JabberSmackAPI chatAPI) {
 		
 		mw = home;
 		this.username = username;
 		initialize();
+		chatAPI.initializeStanzaListenerForChat(textArea);
 	}
 
 	/**
@@ -134,7 +135,7 @@ public class Chat {
 			else {
 				textArea.setText(textArea.getText() + "\n" + text);
 			}
-			mw.getChat().sendPrivateMessage(text, username+"@"+mw.getHost());
+			mw.getChat().sendPrivateMessage(text, username);
 			textField.setText("");
 		}
 		

@@ -3,6 +3,7 @@ import java.util.*;
 
 import javax.swing.JTextPane;
 
+import java.awt.TextArea;
 import java.io.*;
  
 
@@ -38,7 +39,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
 	 
     public void login(String userName, String password) throws XMPPException, SmackException, IOException, InterruptedException
     {
-    	DomainBareJid serviceName = JidCreate.domainBareFrom("example.org");
+    	DomainBareJid serviceName = JidCreate.domainBareFrom("54.158.25.184");
     	XMPPTCPConnectionConfiguration config = XMPPTCPConnectionConfiguration.builder()
     			.setUsernameAndPassword(userName, password)
     			.setHost(dHost)
@@ -54,14 +55,16 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
     	
     }
     
-    public ArrayList<String> checkForMessage() {
- 
-    	ArrayList<String> newMessage = new ArrayList<String>();
+    public void initializeStanzaListenerForChat(JTextPane ta) {
         packetListener = new StanzaListener() {
             public void processStanza(Stanza stanza) {
                 if (stanza instanceof Message) {
                     Message message = (Message) stanza;
-                    
+                    if (stanza instanceof Message) {
+                    	if (message.getType() == Message.Type.chat && message.getBody() != null) {
+                    		ta.setText(ta.getText() + "\n" + message.getFrom() + ": " + message.getBody());
+                    	}
+                    }
                     //the 1st character is the type of messsage 
                     /*
                      * 0 is for announcment
@@ -69,6 +72,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
                      * 2 is for poll
                      * 3 is for list update
                      */
+                    /*
                     if(message.getError() != null) {
                     	System.out.println("Message Recieved in stanzalistner error: " + message.getError().toString());
                     }
@@ -80,24 +84,23 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
 	                    newMessage.add(message.getFrom().toString());
 	                    newMessage.add(message.getBody().substring(1, message.getBody().length()));                
                     }
-                                  
+                       */           
                 }
             }
         };
-          
-        StanzaTypeFilter packetFilter = new StanzaTypeFilter(Message.class);
+       
+       // The code below isn't necessarily wrong but we should properly filter it.
+       // StanzaTypeFilter packetFilter = new StanzaTypeFilter(Message.class);
+        StanzaTypeFilter packetFilter = null;
         // Create a stanza filter to listen for new messages from a particular
         // user. We use an AndFilter to combine two other filters._
-        connection.addAsyncStanzaListener(packetListener, packetFilter);
-        
-        return newMessage;
-        
+        connection.addAsyncStanzaListener(packetListener, packetFilter);      
     }
  
     public void sendPrivateMessage(String body, String toJid) {
         try {
-            Jid jid = JidCreate.from(toJid);
-            Chat chat = ChatManager.getInstanceFor(connection).chatWith((EntityBareJid) jid);
+            EntityBareJid jid = JidCreate.entityBareFrom(toJid + "@" + dHost);
+            Chat chat = ChatManager.getInstanceFor(connection).chatWith(jid);
             chat.send("1" + body);
         } catch (Exception e) {
         } 

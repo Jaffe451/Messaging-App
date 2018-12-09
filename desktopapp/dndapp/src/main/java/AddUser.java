@@ -110,7 +110,7 @@ public class AddUser {
 					chat.addActionListener(new ActionListener() {
 					    public void actionPerformed(ActionEvent arg0) {
 					
-					    	Chat nw = new Chat(mw, username );
+					    	Chat nw = new Chat(mw, username, mw.chatAPI);
 							nw.frame.setVisible(true);
 						
 					    }

@@ -56,7 +56,7 @@ public class Home implements UpdateListener {
 	private static XMPPTCPConnection connection;
 	private XMPPTCPConnectionConfiguration config;
 
-	private JabberSmackAPI chatAPI;
+	public static JabberSmackAPI chatAPI;
 	private Updater updateThread;
 	
 
@@ -390,8 +390,10 @@ public class Home implements UpdateListener {
 					Thread.sleep(updateTimer);
 					//System.out.println("Looking for messages");
 
-				
+				    /*
+					System.out.println("before checking form essage");
 					message = chatAPI.checkForMessage();
+					*/
 					
 					if(listener != null) {
 						if(!message.isEmpty()) {
