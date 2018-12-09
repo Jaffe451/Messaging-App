@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
         mAuthTask = new UserLoginTask(mEmail, mPass);
         mAuthTask.execute((Void) null);
 
+
+
     }
 
     @Override
@@ -203,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements Home.OnFragmentIn
 
 
             if (success) {
+                chatAPI.addMessageListener();
 
             } else {
 

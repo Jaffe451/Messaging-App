@@ -128,7 +128,7 @@ public class UserChat extends Fragment implements messageDisplayer{
 
         chatAPI = ((MainActivity)getActivity()).getChatAPI();
         chatAPI.setMessageDisplayer(this);
-        chatAPI.addMessageListener();
+
 
 /*
         RecyclerView recyclerView = getActivity().findViewById(R.id.recyclerview);
@@ -201,13 +201,16 @@ public class UserChat extends Fragment implements messageDisplayer{
     public void onNewMessage(ArrayList<String> message) {
 
         final TextMessage newMessage = new TextMessage(message.get(2),message.get(1),false);
-        getActivity().runOnUiThread(new Runnable(){
+        if(message.get(1).equals(userName)) {
+            //only display if chat is from current user
+            getActivity().runOnUiThread(new Runnable() {
 
-            @Override
-            public void run() {
-                addMessage(newMessage);
-            }
-        });
+                @Override
+                public void run() {
+                    addMessage(newMessage);
+                }
+            });
+        }
 
     }
 

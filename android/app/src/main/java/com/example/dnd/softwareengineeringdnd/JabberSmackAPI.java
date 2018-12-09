@@ -88,7 +88,7 @@ public class JabberSmackAPI implements ConnectionListener, MessageListener, Chat
 	                    newMessage.add(message.getFrom().toString().split("@")[0]);
 	                    newMessage.add(message.getBody().substring(1, message.getBody().length()));
 
-	                    Log.i("Jabber","Message recieved: body contains " + newMessage.get(2));
+	                    Log.i("Jabber","Message recieved: body contains " + newMessage.get(2) + ", from: " + newMessage.get(1));
 	                    displayer.onNewMessage(newMessage);
 	                    
                     }else{
